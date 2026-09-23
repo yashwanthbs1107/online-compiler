@@ -1,0 +1,4 @@
+{
+  "code": "name = input()\nprint(\"Hello\", name)",
+  "input": "Yashwanth"
+}

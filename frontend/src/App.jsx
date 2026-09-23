@@ -13,7 +13,7 @@ function App() {
     setIsRunning(true);
     setOutput("");
     setError("");
-
+    console.log("INPUT:", input);
 
   
     try {
@@ -263,7 +263,10 @@ function App() {
 
               <textarea
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => {
+  console.log("TYPED:", e.target.value);
+  setInput(e.target.value);
+}}
                 placeholder="Enter program input..."
                 style={{
                   width: "100%",
