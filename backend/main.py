@@ -37,26 +37,9 @@ def run_code(request: CodeRequest):
         with open(source_file, "w") as file:
             file.write(request.code)
 
-        docker_command = [
-            "docker",
-            "run",
-            "--rm",
-            "-i",
-            "--network=none",
-            "--memory=128m",
-            "--cpus=0.5",
-            "-v",
-            f"{temp_dir}:/app",
-            "-w",
-            "/app",
-            "python:3.12",
-            "python",
-            "main.py"
-        ]
-
         try:
             result = subprocess.run(
-                docker_command,
+                ["python", source_file],
                 input=request.input,
                 capture_output=True,
                 text=True,
@@ -87,5 +70,5 @@ def run_code(request: CodeRequest):
             }
 
         except Exception as e:
-            print("DOCKER ERROR:", repr(e))
+            print("PYTHON ERROR:", repr(e))
             raise
