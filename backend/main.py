@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 import subprocess
@@ -37,22 +36,23 @@ def run_code(request: CodeRequest):
 
         with open(source_file, "w") as file:
             file.write(request.code)
+
         docker_command = [
-    "docker",
-    "run",
-    "--rm",
-    "-i",
-    "--network=none",
-    "--memory=128m",
-    "--cpus=0.5",
-    "-v",
-    f"{temp_dir}:/app",
-    "-w",
-    "/app",
-    "python:3.12",
-    "python",
-    "main.py"
-]
+            "docker",
+            "run",
+            "--rm",
+            "-i",
+            "--network=none",
+            "--memory=128m",
+            "--cpus=0.5",
+            "-v",
+            f"{temp_dir}:/app",
+            "-w",
+            "/app",
+            "python:3.12",
+            "python",
+            "main.py"
+        ]
 
         try:
             result = subprocess.run(
@@ -85,3 +85,7 @@ def run_code(request: CodeRequest):
                 "output": "",
                 "error": "Execution timed out after 5 seconds."
             }
+
+        except Exception as e:
+            print("DOCKER ERROR:", repr(e))
+            raise
